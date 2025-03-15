@@ -45,7 +45,7 @@
 
 Run the script in a terminal or command prompt:
 ```bash
-python youtube_scraper.py
+python main.py
 ```
 
 ## Understanding the Output
