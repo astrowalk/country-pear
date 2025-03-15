@@ -3,7 +3,7 @@
 - **Python 3.x** (Download from [python.org](https://www.python.org/))
 - Required Python libraries:
   ```bash
-  pip install requests colorama
+  pip install requests colorama isodate
   ```
 - A Google Cloud account with **YouTube Data API v3** enabled.
 
@@ -29,13 +29,17 @@
 2. Add the YouTube channels you want to track in the following format:
    ```json
    {
-       "channels": [
-           "https://www.youtube.com/@MrBeast",
-           "https://www.youtube.com/@PewDiePie"
-       ]
-   }
+    "channels": [
+        "UCX6OQ3DkcsbYNE6H8uQQuVA",
+        "UCnQC_G5Xsjhp9fEJKuIcrSw",
+        "UCXIJgqnII2ZOINSWNOGFThA",
+        "UCdFcGPb4xQ6X4QOoRU6ROYw",
+        "UCL_f53ZEJxp8TtlOkHwMV9Q"
+    ]
+    }
    ```
-   Ensure the URLs are correctly formatted with `@` handles or `/channel/` links.
+   You can get the channel ID by going to a creator's homepage, viewing the page source (Ctrl+U), then Ctrl+F for the following string: ```property="og:url"``` 
+   Following that, you will see the channel's URL. The ID is after the /channel/ part.
 
 ## Running the Script
 
