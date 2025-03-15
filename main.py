@@ -20,18 +20,28 @@ def log(message, color=Fore.WHITE):
     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     print(f"{color}[{timestamp}] {message}")
 
+def ensure_config_file():
+    if not os.path.exists(CONFIG_FILE):
+        default_config = {
+            "API_KEY": "",
+            "INCLUDE_SHORTS": True,
+            "CHECK_DELAY": 5,
+            "CHANNEL_DELAY": 12
+        }
+        with open(CONFIG_FILE, "w", encoding="utf-8") as f:
+            json.dump(default_config, f, indent=4)
+        log("config.json not found. Created a new one with default values. Please add your API key.", Back.LIGHTRED_EX + Fore.BLACK)
+
 def load_config():
-    if os.path.exists(CONFIG_FILE):
-        with open(CONFIG_FILE, "r", encoding="utf-8") as f:
-            config = json.load(f)
-            return (
-                config.get("API_KEY", ""),
-                config.get("INCLUDE_SHORTS", True),
-                config.get("CHECK_DELAY", 5),  # Default to 5 hours
-                config.get("CHANNEL_DELAY", 12)  # Default to 12 hours before rechecking a channel
-            )
-    log("error: config.json not found or missing api_key", Fore.RED)
-    return "", [], True, 5, 12
+    ensure_config_file()
+    with open(CONFIG_FILE, "r", encoding="utf-8") as f:
+        config = json.load(f)
+        return (
+            config.get("API_KEY", ""),
+            config.get("INCLUDE_SHORTS", True),
+            config.get("CHECK_DELAY", 5),  # Default to 5 hours
+            config.get("CHANNEL_DELAY", 12)  # Default to 12 hours before rechecking a channel
+        )
 
 API_KEY, INCLUDE_SHORTS, CHECK_DELAY, CHANNEL_DELAY = load_config()
 
