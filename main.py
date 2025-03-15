@@ -14,7 +14,6 @@ os.system("cls")
 CONFIG_FILE = "config.json"
 CHANNELS_FILE = "channels.json"
 RESULTS_FILE = "results.json"
-PRINTED_VIDEOS = set()
 LATEST_VIDEO_TRACKER = {}
 
 def log(message, color=Fore.WHITE):
@@ -27,7 +26,6 @@ def load_config():
             config = json.load(f)
             return (
                 config.get("API_KEY", ""),
-                config.get("DATA_FIELDS", []),
                 config.get("INCLUDE_SHORTS", True),
                 config.get("CHECK_DELAY", 5),  # Default to 5 hours
                 config.get("CHANNEL_DELAY", 12)  # Default to 12 hours before rechecking a channel
@@ -35,7 +33,7 @@ def load_config():
     log("error: config.json not found or missing api_key", Fore.RED)
     return "", [], True, 5, 12
 
-API_KEY, DATA_FIELDS, INCLUDE_SHORTS, CHECK_DELAY, CHANNEL_DELAY = load_config()
+API_KEY, INCLUDE_SHORTS, CHECK_DELAY, CHANNEL_DELAY = load_config()
 
 # Ensure results.json exists
 def ensure_results_file():
@@ -67,8 +65,6 @@ PRINTED_VIDEOS = load_existing_results()
 
 # Function to get the latest video from a single channel
 def get_latest_video(channel_id):
-    #DEBUG log(f"Checking {channel_id}", Fore.YELLOW)
-    
     # If results.json was empty, do not skip any channels
     if len(LATEST_VIDEO_TRACKER) == 0:
         log("results.json is empty. Fetching new videos normally.", Fore.YELLOW)
